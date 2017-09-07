@@ -1,7 +1,7 @@
 # Online-Arithemtic-Unit-Generator
 A software program to generate hardware in VHDL to perform online arithmetic operaitions.
 
-The software system written in MATLAB, taking an arbitrary symbolic expression as input and producing pieces of VHDL files to describe an arithmetic functional unit.  
+The software system written in MATLAB, taking an arbitrary symbolic expression as input and producing pieces of VHDL files to describe an arithmetic functional unit. The expression allows 4 primitive operator +, -, * and /. The operand could be either letter or fraction decimal that is bounded to the range between 1 and -1.  
 
 The building blocks of generated hardware implements the online algorithms to design  online adder, multiplier and divider. Sequence of operators are interconnected in a network for multi-operations.
 
