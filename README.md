@@ -20,7 +20,8 @@ User Guide:
 6. Testbench are genrated as part of software, two testbench as generated for behaviour simulation and post-synthesis/implementation simulation seperately. Ten sets of testing data vector are generated for verification.  
 
 User interface example:
->> online_unit_generator
+
+online_unit_generator
 please input the toplevel name of your IP: OA
 please input the symbolic expresion: (a+b)*c/0.5
 please input the precision bit of computation: 16
