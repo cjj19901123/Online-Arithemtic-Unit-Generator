@@ -62,11 +62,11 @@ function [Decimal_Output, Decimal_Input] = CreateTB(name, precision, expression)
         oa.PortAssignment = [oa.PortAssignment, [var{k} '_p'], [var{k} '_n']];
     end
     
-    oa.PortName = [oa.PortName, 'clk', 'rst', 'j_out', 'dout_p', 'dout_n'];
-    oa.PortType = [oa.PortType, 'in', 'in', 'out', 'out', 'out'];
-    oa.PortDataType = [oa.PortDataType, 'BIT', 'BIT', 'INT', 'BIT', 'BIT'];
-    oa.PortWidth = [oa.PortWidth, '0', '0', '-total_online_delay - 1 to precision_bit', '0', '0']; 
-    oa.PortAssignment = [oa.PortAssignment, 'clk', 'rst', 'j', 'dout_p', 'dout_n']; 
+    oa.PortName = [oa.PortName, 'clk', 'rst', 'dout_p', 'dout_n'];
+    oa.PortType = [oa.PortType, 'in', 'in', 'out', 'out'];
+    oa.PortDataType = [oa.PortDataType, 'BIT', 'BIT', 'BIT', 'BIT'];
+    oa.PortWidth = [oa.PortWidth, '0', '0', '0', '0']; 
+    oa.PortAssignment = [oa.PortAssignment, 'clk', 'rst', 'dout_p', 'dout_n']; 
     
     otf = VHDLParsorClass;
     otf.ComponentName = 'on_the_fly_conv_r2';
@@ -145,6 +145,22 @@ function [Decimal_Output, Decimal_Input] = CreateTB(name, precision, expression)
     ArchitectureBuffer = [ArchitectureBuffer, ' '];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'd_out <= dout(precision_bit - 1 downto 0);']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'd_val <= REAL(to_integer(SIGNED(d_out)))/(2**(precision_bit - 2)-1+2**(precision_bit - 2)) when j = precision_bit - 1 else REAL(0);']];
+    ArchitectureBuffer = [ArchitectureBuffer, ' '];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'process(clk, rst)']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'begin']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(8) 'if RISING_EDGE(clk) then']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(12) 'if rst = ''1'' then']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) 'j <=  -total_online_delay - 1;']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(12) 'else']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) 'if (j = precision_bit) then']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'j <=  -total_online_delay - 1;']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) 'else']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'j <= j + 1;']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) 'end if;']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(12) 'end if;']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(8) 'end if;']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'end process;']];
+    ArchitectureBuffer = [ArchitectureBuffer, ' '];
     ArchitectureBuffer = [ArchitectureBuffer, waveGenBuffer];
     ArchitectureBuffer = [ArchitectureBuffer, ' '];
     ArchitectureBuffer = [ArchitectureBuffer, InitialiseBuffer];

@@ -38,14 +38,10 @@ function Create_oa_topLevel(name, expression, radix, precisionBit)
         toplevel.PortWidth = [toplevel.PortWidth, '0', '0'];
         toplevel.PortDataType = [toplevel.PortDataType, 'BIT', 'BIT'];
     end
-    toplevel.PortName = [toplevel.PortName, 'clk', 'rst', 'j_out', 'dout_p', 'dout_n'];
-    toplevel.PortType = [toplevel.PortType, 'in', 'in', 'out', 'out', 'out'];
-    toplevel.PortWidth = [toplevel.PortWidth, '0', '0', '-total_online_delay - 1 to precision_bit', '0', '0'];
-    toplevel.PortDataType = [toplevel.PortDataType, 'BIT', 'BIT', 'INT', 'BIT', 'BIT'];
-    
-    toplevel.SignalName = [toplevel.SignalName, 'j'];
-    toplevel.SignalDataType = [toplevel.SignalDataType, 'INT'];
-    toplevel.SignalWidth = [toplevel.SignalWidth, '-total_online_delay - 1 to precision_bit'];
+    toplevel.PortName = [toplevel.PortName, 'clk', 'rst', 'dout_p', 'dout_n'];
+    toplevel.PortType = [toplevel.PortType, 'in', 'in', 'out', 'out'];
+    toplevel.PortWidth = [toplevel.PortWidth, '0', '0', '0', '0'];
+    toplevel.PortDataType = [toplevel.PortDataType, 'BIT', 'BIT', 'BIT', 'BIT'];
     
     constSize = size(constantBuffer);
     if constSize(1) ~= 0  
@@ -183,8 +179,7 @@ function Create_oa_topLevel(name, expression, radix, precisionBit)
             InitialiseBuffer = [InitialiseBuffer, InitialiseComponent(N_UnitDelay{j}), ' '];
         end
     end
-    
-    %rstDelayUnitSize = size(rstDelayUnitBuffer);
+
     if maxRstDelay > 0  
         CreateDFF_NoRst;
         rstSignalStack = {'rst'};
@@ -231,28 +226,12 @@ function Create_oa_topLevel(name, expression, radix, precisionBit)
     ArchitectureBuffer = [ArchitectureBuffer, ' '];
     ArchitectureBuffer = [ArchitectureBuffer, ComponentBuffer];
     ArchitectureBuffer = [ArchitectureBuffer, 'begin'];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'j_out <= j;']];
     
     if constSize(1) ~= 0  
         for i = 1 : constSize(1) 
             ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) constantBuffer{i} '_n <= ''0'';']];
         end
     end
-    ArchitectureBuffer = [ArchitectureBuffer, ' '];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'process(clk, rst)']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'begin']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(8) 'if RISING_EDGE(clk) then']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(12) 'if rst = ''1'' then']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) 'j <=  -total_online_delay - 1;']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(12) 'else']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) 'if (j = precision_bit) then']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'j <=  -total_online_delay - 1;']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) 'else']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'j <= j + 1;']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) 'end if;']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(12) 'end if;']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(8) 'end if;']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'end process;']];
     ArchitectureBuffer = [ArchitectureBuffer, ' '];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'process(clk, rst)']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'begin']];

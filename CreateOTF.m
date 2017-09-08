@@ -9,12 +9,12 @@ function CreateOTF
     otf.GenericName = {'total_bit', 'start_iteration'};
     otf.GenericType = {'INTEGER', 'INTEGER'};
     otf.GenericValue = {'32', '-5'};
-    otf.PortName = {'x_p', 'x_n', 'j', 'x_out', 'x_out_not'};
-    otf.PortType = {'in', 'in', 'in', 'out', 'out'};
-    otf.PortDataType = {'BIT', 'BIT', 'INT', 'VEC', 'VEC'};
+    otf.PortName = {'x_p', 'x_n', 'j', 'x_out'};
+    otf.PortType = {'in', 'in', 'in', 'out'};
+    otf.PortDataType = {'BIT', 'BIT', 'INT', 'VEC'};
 
     IntegerRange = [otf.GenericName{2} ' to ' otf.GenericName{1} ' + ' otf.GenericName{2} ' + 2'];
-    otf.PortWidth = {'0', '0', IntegerRange, 'total_bit', 'total_bit'};
+    otf.PortWidth = {'0', '0', IntegerRange, 'total_bit'};
 
     otf.SignalName = {'x', 'xm', 'x_rg', 'xm_rg', 'x_in', 'xm_in', 'sf_x', 'sf_xm', 'x_digit'};
     otf.SignalDataType = {'VEC', 'VEC', 'VEC', 'VEC', 'BIT', 'BIT', 'BIT', 'BIT', 'VEC'};
@@ -43,7 +43,6 @@ function CreateOTF
     ArchitectureBuffer = [ArchitectureBuffer, 'begin'];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) otf.SignalName{9} ' <= ' otf.PortName{1} ' & ' otf.PortName{2} ';']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) otf.PortName{4} ' <= ' otf.SignalName{3} ';']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) otf.PortName{5} ' <= not ' otf.SignalName{3} ';']];
     ArchitectureBuffer = [ArchitectureBuffer, ' '];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'process(' otf.PortName{3} ')']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'begin']];

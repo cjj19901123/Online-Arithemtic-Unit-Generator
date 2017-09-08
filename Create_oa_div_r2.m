@@ -72,19 +72,19 @@ function Create_oa_div_r2(radix, onlineDelay, precisionBit)
     otf1.GenericType = {'INTEGER', 'INTEGER'};
     otf1.GenericValue = {'total_bit', '-online_delay'};
     otf1.GenericAssignment = {'total_bit', '-online_delay'};
-    otf1.PortName = {'x_p', 'x_n', 'j', 'x_out', 'x_out_not'};
-    otf1.PortType = {'in', 'in', 'in', 'out', 'out'};
-    otf1.PortDataType = {'BIT', 'BIT', 'INT', 'VEC', 'VEC'};
-    otf1.PortWidth = {'0', '0', 'start_iteration to total_bit + start_iteration + 2', 'total_bit', 'total_bit'};
-    otf1.PortAssignment = {'d_p', 'd_n', 'j', 'd_out', 'd_out_not'};
+    otf1.PortName = {'x_p', 'x_n', 'j', 'x_out'};
+    otf1.PortType = {'in', 'in', 'in', 'out'};
+    otf1.PortDataType = {'BIT', 'BIT', 'INT', 'VEC'};
+    otf1.PortWidth = {'0', '0', 'start_iteration to total_bit + start_iteration + 2', 'total_bit'};
+    otf1.PortAssignment = {'d_p', 'd_n', 'j', 'd_out'};
     
     otf2 = VHDLParsorClass;
     otf2.ComponentName = 'on_the_fly_conv_r2';
     otf2.GenerateComponentName = 'ca_q';
     otf2.GenericName = {'total_bit', 'start_iteration'};
     otf2.GenericAssignment = {'total_bit', '0'};
-    otf2.PortName = {'x_p', 'x_n', 'j', 'x_out', 'x_out_not'};
-    otf2.PortAssignment = {'qp', 'qn', 'j', 'q_out', 'q_out_not'};
+    otf2.PortName = {'x_p', 'x_n', 'j', 'x_out'};
+    otf2.PortAssignment = {'qp', 'qn', 'j', 'q_out'};
     
     U = VHDLParsorClass;
     U.ComponentName = 'u_comb';
@@ -166,6 +166,9 @@ function Create_oa_div_r2(radix, onlineDelay, precisionBit)
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'q_p <= qp;']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'q_n <= qn;']];
     ArchitectureBuffer = [ArchitectureBuffer, ' '];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'd_not_temp <= not d_temp;']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'q_not_temp <= not q_temp;']];
+    ArchitectureBuffer = [ArchitectureBuffer, ' ']; 
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'q_mult_digit_d(q_mult_digit_d''high downto total_bit - online_delay + 1) <= u;']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'q_mult_digit_d(total_bit - online_delay downto 0) <= q_not_temp(total_bit - online_delay - 1 downto 0) & q_not_temp(0) when d_p_d1 = ''1'' and d_n_d1 = ''0'' else ']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(57) 'q_temp(total_bit - online_delay - 1 downto 0) & q_temp(0) when d_p_d1 = ''0'' and d_n_d1 = ''1'' else']];
@@ -210,12 +213,8 @@ function Create_oa_div_r2(radix, onlineDelay, precisionBit)
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) 'if (j = i - online_delay - 1) then']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'd_temp(total_bit downto total_bit - i) <= d_out(i downto 0);']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'd_temp(total_bit - 1 - i downto 0) <= (others => ''0'');']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'd_not_temp(total_bit downto total_bit - i) <= d_out_not(i downto 0);']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'd_not_temp(total_bit - 1 - i downto 0) <= (others => ''1'');']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'q_temp(total_bit downto total_bit - i) <= q_out(i downto 0);']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'q_temp(total_bit - 1 - i downto 0) <= (others => ''0'');']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'q_not_temp(total_bit downto total_bit - i) <= q_out_not(i downto 0);']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'q_not_temp(total_bit - 1 - i downto 0) <= (others => ''1'');']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) 'end if;']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(12) 'end loop;']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(8) 'end if;']];

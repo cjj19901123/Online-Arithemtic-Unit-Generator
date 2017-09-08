@@ -75,19 +75,19 @@ function Create_oa_mult_r2(radix, onlineDelay, precisionBit)
     otf1.GenericType = {'INTEGER', 'INTEGER'};
     otf1.GenericValue = {'total_bit', '-online_delay'};
     otf1.GenericAssignment = {'total_bit', '-online_delay'};
-    otf1.PortName = {'x_p', 'x_n', 'j', 'x_out', 'x_out_not'};
-    otf1.PortType = {'in', 'in', 'in', 'out', 'out'};
-    otf1.PortDataType = {'BIT', 'BIT', 'INT', 'VEC', 'VEC'};
-    otf1.PortWidth = {'0', '0', 'start_iteration to total_bit + start_iteration + 2', 'total_bit', 'total_bit'};
-    otf1.PortAssignment = {'x_p_d1', 'x_n_d1', 'j', 'x_out', 'x_out_not'};
+    otf1.PortName = {'x_p', 'x_n', 'j', 'x_out'};
+    otf1.PortType = {'in', 'in', 'in', 'out'};
+    otf1.PortDataType = {'BIT', 'BIT', 'INT', 'VEC'};
+    otf1.PortWidth = {'0', '0', 'start_iteration to total_bit + start_iteration + 2', 'total_bit'};
+    otf1.PortAssignment = {'x_p_d1', 'x_n_d1', 'j', 'x_out'};
     
     otf2 = VHDLParsorClass;
     otf2.ComponentName = 'on_the_fly_conv_r2';
     otf2.GenerateComponentName = 'ca_y';
     otf2.GenericName = {'total_bit', 'start_iteration'};
     otf2.GenericAssignment = {'total_bit', '-online_delay'};
-    otf2.PortName = {'x_p', 'x_n', 'j', 'x_out', 'x_out_not'};
-    otf2.PortAssignment = {'y_p', 'y_n', 'j', 'y_out', 'y_out_not'};
+    otf2.PortName = {'x_p', 'x_n', 'j', 'x_out'};
+    otf2.PortAssignment = {'y_p', 'y_n', 'j', 'y_out'};
     
     dff1 = VHDLParsorClass; 
     dff1.PortName = {'d', 'clk', 'rst', 'q'};
@@ -143,6 +143,9 @@ function Create_oa_mult_r2(radix, onlineDelay, precisionBit)
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'p_p <= pp;']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'p_n <= pn;']];
     ArchitectureBuffer = [ArchitectureBuffer, ' ']; 
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'x_not_temp <= not x_temp;']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'y_not_temp <= not y_temp;']];
+    ArchitectureBuffer = [ArchitectureBuffer, ' ']; 
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'x_unit_shift <= (others => ''0'') when x_temp(x_temp''high) = ''0'' else (others => ''1'');']]; 
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'x_not_unit_shift <= (others => ''0'') when x_not_temp(x_not_temp''high) = ''0'' else (others => ''1'');']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'y_unit_shift <= (others => ''0'') when y_temp(y_temp''high) = ''0'' else (others => ''1'');']];
@@ -185,12 +188,8 @@ function Create_oa_mult_r2(radix, onlineDelay, precisionBit)
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) 'if (j = i - online_delay - 1) then']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'x_temp(total_bit downto total_bit - i) <= x_out(i downto 0);']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'x_temp(total_bit - 1 - i downto 0) <= (others => ''0'');']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'x_not_temp(total_bit downto total_bit - i) <= x_out_not(i downto 0);']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'x_not_temp(total_bit - 1 - i downto 0) <= (others => ''1'');']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'y_temp(total_bit downto total_bit - i) <= y_out(i downto 0);']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'y_temp(total_bit - 1 - i downto 0) <= (others => ''0'');']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'y_not_temp(total_bit downto total_bit - i) <= y_out_not(i downto 0);']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(20) 'y_not_temp(total_bit - 1 - i downto 0) <= (others => ''1'');']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) 'end if;']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(12) 'end loop;']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(8) 'end if;']];
