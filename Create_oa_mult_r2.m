@@ -73,8 +73,8 @@ function Create_oa_mult_r2(radix, onlineDelay, precisionBit)
     otf1.GenerateComponentName = 'ca_x';
     otf1.GenericName = {'total_bit', 'start_iteration'};
     otf1.GenericType = {'INTEGER', 'INTEGER'};
-    otf1.GenericValue = {'total_bit', '-online_delay - 1'};
-    otf1.GenericAssignment = {'total_bit', '-online_delay - 1'};
+    otf1.GenericValue = {'total_bit', '-online_delay'};
+    otf1.GenericAssignment = {'total_bit', '-online_delay'};
     otf1.PortName = {'x_p', 'x_n', 'j', 'x_out', 'x_out_not'};
     otf1.PortType = {'in', 'in', 'in', 'out', 'out'};
     otf1.PortDataType = {'BIT', 'BIT', 'INT', 'VEC', 'VEC'};
@@ -85,7 +85,7 @@ function Create_oa_mult_r2(radix, onlineDelay, precisionBit)
     otf2.ComponentName = 'on_the_fly_conv_r2';
     otf2.GenerateComponentName = 'ca_y';
     otf2.GenericName = {'total_bit', 'start_iteration'};
-    otf2.GenericAssignment = {'total_bit', '-online_delay - 1'};
+    otf2.GenericAssignment = {'total_bit', '-online_delay'};
     otf2.PortName = {'x_p', 'x_n', 'j', 'x_out', 'x_out_not'};
     otf2.PortAssignment = {'y_p', 'y_n', 'j', 'y_out', 'y_out_not'};
     

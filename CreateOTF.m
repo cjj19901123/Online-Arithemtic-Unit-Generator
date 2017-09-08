@@ -47,17 +47,9 @@ function CreateOTF
     ArchitectureBuffer = [ArchitectureBuffer, ' '];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'process(' otf.PortName{3} ')']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'begin']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(8) 'if (' otf.PortName{3} ' < ' otf.GenericName{2} ' + 1) then']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(8) 'if (' otf.PortName{3} ' < ' otf.GenericName{2} ') then']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(12) otf.SignalName{1} ' <= ' '(' OthersZero ');']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(12) otf.SignalName{2} ' <= ' '(' OthersZero ');']];
-    %ArchitectureBuffer = [ArchitectureBuffer, [blanks(8) 'elsif (' otf.PortName{3} ' = ' otf.GenericName{2} ' + 1) then']];
-    %ArchitectureBuffer = [ArchitectureBuffer, [blanks(12) 'if (' otf.SignalName{9} ' = "01") then']];
-    %ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) otf.SignalName{1} ' <= ' '(0 => ''1'', ' OthersZero ');']];
-    %ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) otf.SignalName{2} ' <= ' '(0 => ''1'', ' OthersZero ');']];
-    %ArchitectureBuffer = [ArchitectureBuffer, [blanks(12) 'else']];
-    %ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) otf.SignalName{1} ' <= ' '(' OthersZero ');']];
-    %ArchitectureBuffer = [ArchitectureBuffer, [blanks(16) otf.SignalName{2} ' <= ' '(' OthersZero ');']];
-    %ArchitectureBuffer = [ArchitectureBuffer, [blanks(12) 'end if;']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(8) 'else']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(12) otf.SignalName{1} ' <= ' otf.SignalName{3} ';']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(12) otf.SignalName{2} ' <= ' otf.SignalName{4} ';']];
