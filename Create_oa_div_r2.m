@@ -170,8 +170,8 @@ function Create_oa_div_r2(radix, onlineDelay, precisionBit)
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'q_not_temp <= not q_temp;']];
     ArchitectureBuffer = [ArchitectureBuffer, ' ']; 
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'q_mult_digit_d(q_mult_digit_d''high downto total_bit - online_delay + 1) <= u;']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'q_mult_digit_d(total_bit - online_delay downto 0) <= q_not_temp(total_bit - online_delay - 1 downto 0) & q_not_temp(0) when d_p_d1 = ''1'' and d_n_d1 = ''0'' else ']];
-    ArchitectureBuffer = [ArchitectureBuffer, [blanks(57) 'q_temp(total_bit - online_delay - 1 downto 0) & q_temp(0) when d_p_d1 = ''0'' and d_n_d1 = ''1'' else']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'q_mult_digit_d(total_bit - online_delay downto 0) <= q_not_temp(total_bit - online_delay - 1 downto 0) & q_not_temp(0) when d_p_d1 = ''1'' and d_n_d1 = ''0'' and q_temp(q_temp''high - online_delay) = ''0'' else ']];
+    ArchitectureBuffer = [ArchitectureBuffer, [blanks(57) 'q_temp(total_bit - online_delay - 1 downto 0) & q_temp(0) when d_p_d1 = ''0'' and d_n_d1 = ''1'' and q_temp(q_temp''high - online_delay) = ''1'' else']];
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(57) '(others => ''0'');']];
     ArchitectureBuffer = [ArchitectureBuffer, ' '];  
     ArchitectureBuffer = [ArchitectureBuffer, [blanks(4) 'd_mult_digit_q <= d_not_temp(d_not_temp''high) & d_not_temp when qp = ''1'' and qn = ''0'' else ']];
